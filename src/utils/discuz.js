@@ -89,8 +89,8 @@ export const getAllThreads = () => new Promise((res, rej) => {
 export const getThread = (tid) => new Promise((res, rej) => {
   doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}forum_post\` WHERE \`tid\`=${tid}`)
     .then(e => {
-      const result = e[0];
-      const subThreads = e.slice(1);
+      const result = e.filter(e => e.first === 1)[0];
+      const subThreads = e.filter(e => e.first !== 1).sort((a, b) => a.pid - b.pid);
 
       result.subthreads = subThreads;
       res(result);
