@@ -72,6 +72,57 @@ export const getUser = (uid) => new Promise((res, rej) => {
     .catch(e => rej(e));
 });
 
+const _getAllFields = () => new Promise((res, rej) => {
+  doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}forum_forum\` WHERE \`status\`=1`)
+    .then(e => {
+      const result = [];
+
+      for (const group of e) {
+        if (group.type !== 'group' || group.fup !== 0) continue;
+        result.push({
+          fid: group.fid,
+          name: group.name,
+          displayorder: group.displayorder,
+          subfields: e.filter(i => i.fup === group.fid && i.type === 'forum').sort((a, b) => a.displayorder - b.displayorder),
+        });
+      }
+      
+      result.sort((a, b) => a.displayorder - b.displayorder);
+      res(result);
+    })
+    .catch(e => rej(e));
+});
+
+const _getField = (fid) => new Promise((res, rej) => {
+  doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}forum_forumfield\` WHERE \`fid\`=${fid}`)
+    .then(e => {
+      if (e.length <= 0) return rej('No such field');
+      res(e[0]);
+    })
+    .catch(e => rej(e));
+});
+
+const _parseFields = (_fields) => new Promise(async (res) => {
+  const fields = [ ..._fields ];
+  for (const field of fields) {
+    const info = await _getField(field.fid);
+
+    field.description = info.description;
+    field.icon = info.icon;
+    field.rules = info.rules;
+
+    if (field.subfields) field.subfields = await _parseFields(field.subfields);
+  }
+
+  res(fields);
+});
+
+export const getAllFields = () => new Promise(async (res) => {
+  const Fields = await _getAllFields();
+  const result = await _parseFields(Fields);
+  res(result);
+});
+
 export const getAllThreads = () => new Promise((res, rej) => {
   doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}forum_thread\``)
     .then(e => res(e))
