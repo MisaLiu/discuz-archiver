@@ -46,3 +46,9 @@ export const getAllUids = () => new Promise((res, rej) => {
     .catch((e) => rej(e));
 });
 
+export const getAllUsers = () => new Promise((res, rej) => {
+  doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}common_member\``)
+    .then((result) => res(result))
+    .catch((e) => rej(e));
+});
+
