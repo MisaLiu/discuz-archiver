@@ -2,7 +2,8 @@
   "name": "discuz-archiver",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "module",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,5 +15,9 @@
     "type": "git",
     "url": "git+https://github.com/MisaLiu/discuz-archiver.git"
   },
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "mysql2": "^3.10.3"
+  }
 }
