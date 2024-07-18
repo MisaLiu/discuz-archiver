@@ -80,11 +80,21 @@ export const getUser = (uid) => new Promise((res, rej) => {
     .catch(e => rej(e));
 });
 
-export const getAllTids = () => new Promise((res, rej) => {
-  doDbQuery(`SELECT \`tid\` from \`${process.env.DB_PREFIX}forum_thread\``)
-    .then(result => res(result.map((e) => {
-      return e.tid;
-    })))
+export const getAllThreads = () => new Promise((res, rej) => {
+  doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}forum_thread\``)
+    .then(e => res(e))
     .catch(e => rej(e));
+});
+
+export const getThread = (tid) => new Promise((res, rej) => {
+  doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}forum_post\` WHERE \`tid\`=${tid}`)
+    .then(e => {
+      const result = e[0];
+      const subThreads = e.slice(1);
+
+      result.subthreads = subThreads;
+      res(result);
+    })
+    .catch(e => rej(e))
 });
 
