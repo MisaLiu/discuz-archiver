@@ -56,7 +56,14 @@ export const getAllUids = () => new Promise((res, rej) => {
 
 export const getAllUsers = () => new Promise((res, rej) => {
   doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}common_member\``)
-    .then((result) => res(result))
+    .then((e) => {
+      const result = [ ...e ];
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].avatarstatus !== 1) result[i].avatarpath = 'noavatar.svg';
+        else result[i].avatarpath = `${getAvatarPath(result[i].uid)}_avatar_big.jpg`;
+      }
+      res(result);
+    })
     .catch((e) => rej(e));
 });
 
