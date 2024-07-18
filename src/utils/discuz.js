@@ -52,3 +52,11 @@ export const getAllUsers = () => new Promise((res, rej) => {
     .catch((e) => rej(e));
 });
 
+export const getAllTids = () => new Promise((res, rej) => {
+  doDbQuery(`SELECT \`tid\` from \`${process.env.DB_PREFIX}forum_thread\``)
+    .then(result => res(result.map((e) => {
+      return e.tid;
+    })))
+    .catch(e => rej(e));
+});
+
