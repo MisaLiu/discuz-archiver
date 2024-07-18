@@ -46,14 +46,6 @@ const doDbQuery = (query) => new Promise(async (res, rej) => {
   });
 });
 
-export const getAllUids = () => new Promise((res, rej) => {
-  doDbQuery(`SELECT \`uid\` from \`${process.env.DB_PREFIX}ucenter_members\``)
-    .then((result) => res(result.map((e) => {
-      return e.uid;
-    })))
-    .catch((e) => rej(e));
-});
-
 export const getAllUsers = () => new Promise((res, rej) => {
   doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}common_member\``)
     .then((e) => {
