@@ -11,13 +11,20 @@ const VIEW_DIR = path.resolve(__rootdir, './views');
 
 
 const parseView = (filename, data = {}, extraOptions = {}) => new Promise((res, rej) => {
+  const innerData = {
+    site: {
+      baseUrl: process.env.SITE_BASE || '/',
+    },
+    ...data,
+  };
+
   const options = {
     root: VIEW_DIR,
     views: [ VIEW_DIR ],
     ...extraOptions,
   };
 
-  ejs.renderFile(`views/${filename}`, data, options, (err, result) => {
+  ejs.renderFile(`views/${filename}`, innerData, options, (err, result) => {
     if (err) return rej(err);
     res(result);
   });
