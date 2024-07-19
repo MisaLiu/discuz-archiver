@@ -1,5 +1,6 @@
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import fs from 'node:fs/promises';
 import * as ejs from 'ejs';
 
 
@@ -28,5 +29,12 @@ const parseView = (filename, data = {}, extraOptions = {}) => new Promise((res, 
     if (err) return rej(err);
     res(result);
   });
+});
+
+const parseViewFile = (filename, outputFilename, data = {}, extraOptions = {}) => new Promise(async (res, rej) => {
+  const result = await parseView(filename, data, extraOptions);
+  fs.writeFile(outputFilename, result, { encoding: 'utf8' })
+    .then(e => res(e))
+    .catch(e => rej(e));
 });
 
