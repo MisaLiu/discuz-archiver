@@ -1,0 +1,115 @@
+:root {
+  --bg-color: white;
+
+  --border-color: #5e5e5e;
+
+  --text-color: black;
+  --text-color-secondary: #555;
+  --text-color-disabled: #d0d0d0;
+
+  --gap: 12px;
+}
+
+body {
+  color: var(--text-color);
+  background: var(--bg-color);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+*[disabled] {
+  color: var(--text-color-disabled);
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* ======== Pager ======== */
+.pager {
+  display: block;
+  margin: calc(var(--gap)) 0;
+  text-align: center;
+}
+
+/* ======== Fields ======== */
+.field-list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: var(--gap);
+}
+
+.field-group {
+  border: 1px solid var(--border-color);
+}
+
+.field-group-title {
+  padding: calc(var(--gap) / 2);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.field-group-items {
+  display: grid;
+  padding: calc(var(--gap) / 2);
+  grid-template-columns: repeat(2, calc(50% - var(--gap) / 2));
+  gap: var(--gap);
+}
+
+.field-group-item {
+  display: flex;
+  gap: var(--gap);
+}
+
+.field-group-item-icon img {
+  width: 42px;
+  height: 42px;
+}
+
+.field-group-item-text {
+  flex: 1;
+}
+
+.field-group-item-subtitle {
+  color: var(--text-color-secondary);
+}
+
+/* ======== Threads ======== */
+.field-info {
+  border: 1px solid var(--border-color);
+}
+
+.field-info-head {
+  padding: calc(var(--gap) / 2);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.field-info-content {
+  padding: calc(var(--gap) / 2);
+}
+
+.thread-list {
+  border: 1px solid var(--border-color);
+}
+
+.thread-list-item {
+  display: flex;
+  padding: 0 calc(var(--gap) / 2);
+  border-bottom: 1px solid var(--border-color);
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: var(--gap);
+}
+
+.thread-list-item > * {
+  flex: initial;
+}
+
+.thread-list-item > .thread-list-item-title {
+  flex: 1;
+}
+
+.thread-list-item:last-child {
+  border-bottom: unset;
+}
