@@ -1,0 +1,40 @@
+<%- include('header.tmpl'); -%>
+
+<div class="field-info">
+  <div class="field-info-head">
+    <div class="field-info-head-title"><%= field.name %></div>
+  </div>
+  <% if (field.rules != '') { %>
+    <div class="field-info-content">
+      <%- field.rules -%>
+    </div>
+  <% } %>
+</div>
+
+<div class="thread-list">
+  <% threads.sort((a, b) => b.lastpost - a.lastpost).forEach((thread) => { %>
+    <div class="thread-list-item">
+      <div class="thread-list-item-title">
+        <a href="/t/<%= thread.tid %>"><%= thread.subject %></a>
+      </div>
+      <div class="thread-list-item-info">
+        <div class="thread-list-item-info-author">
+          <div class="thread-list-item-info-author-name">
+            <a href="/u/<%= thread.authorid %>"><%= thread.author %></a>
+          </a>
+          <div class="thread-list-item-info-author-time"><%= (new Date(thread.dateline * 1000)).toLocaleString() %></div>
+        </div>
+        <div class="thread-list-item-info-count">
+          <div class="thread-list-item-info-count-post"><%= thread.replies %></div>
+          <div class="thread-list-item-info-count-view"><%= thread.views %></div>
+        </div>
+        <div class="thread-list-item-info-lastreply">
+          <div class="thread-list-item-info-lastreply-name"><%= thread.lastposter %></div>
+          <div class="thread-list-item-info-lastreply-time"><%= (new Date(thread.lastpost * 1000)).toLocaleString() %></div>
+        </div>
+      </div>
+    </div>
+  <% }); %>
+</div>
+
+<%- include('footer.tmpl'); -%>
