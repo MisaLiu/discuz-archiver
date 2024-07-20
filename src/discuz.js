@@ -129,6 +129,12 @@ export const getAllThreads = () => new Promise((res, rej) => {
     .catch(e => rej(e));
 });
 
+export const getFieldThreads = (fid) => new Promise((res, rej) => {
+  doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}forum_thread\` WHERE \`fid\`=${fid}`)
+    .then(e => res(e))
+    .catch(e => rej(e));
+});
+
 export const getUserThreads = (uid) => new Promise((res, rej) => {
   doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}forum_thread\` WHERE \`authorid\`=${uid}`)
     .then(e => res(e))
