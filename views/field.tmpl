@@ -25,21 +25,19 @@
         <% } %>
         <a href="/t/<%= thread.tid %>"><%= thread.subject %></a>
       </div>
-      <div class="thread-list-item-info">
-        <div class="thread-list-item-info-author">
-          <div class="thread-list-item-info-author-name">
-            <a href="/u/<%= thread.authorid %>"><%= thread.author %></a>
-          </div>
-          <div class="thread-list-item-info-author-time"><%= (new Date(thread.dateline * 1000)).toLocaleString() %></div>
+      <div class="thread-list-item-author">
+        <div class="thread-list-item-author-name">
+          <a href="/u/<%= thread.authorid %>"><%= thread.author %></a>
         </div>
-        <div class="thread-list-item-info-count">
-          <div class="thread-list-item-info-count-post"><%= thread.replies %></div>
-          <div class="thread-list-item-info-count-view"><%= thread.views %></div>
-        </div>
-        <div class="thread-list-item-info-lastreply">
-          <div class="thread-list-item-info-lastreply-name"><%= thread.lastposter %></div>
-          <div class="thread-list-item-info-lastreply-time"><%= (new Date(thread.lastpost * 1000)).toLocaleString() %></div>
-        </div>
+        <div class="thread-list-item-author-time"><%= (new Date(thread.dateline * 1000)).toLocaleString() %></div>
+      </div>
+      <div class="thread-list-item-count">
+        <div class="thread-list-item-count-post"><%= thread.replies %></div>
+        <div class="thread-list-item-count-view"><%= thread.views %></div>
+      </div>
+      <div class="thread-list-item-lastreply">
+        <div class="thread-list-item-lastreply-name"><%= thread.lastposter %></div>
+        <div class="thread-list-item-lastreply-time"><%= (new Date(thread.lastpost * 1000)).toLocaleString() %></div>
       </div>
     </div>
   <% }); %>
