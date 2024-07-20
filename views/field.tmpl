@@ -15,6 +15,12 @@
   <% threads.sort((a, b) => b.lastpost - a.lastpost).forEach((thread) => { %>
     <div class="thread-list-item">
       <div class="thread-list-item-title">
+        <% if (thread.typeid > 0) { %>
+          <% const classInfo = classes.find((e) => e.typeid === thread.typeid); %>
+          <% if (classInfo) { %>
+            <div class="thread-list-item-title-class">[<%- classInfo.name %>]</div>
+          <% } %>
+        <% } %>
         <a href="/t/<%= thread.tid %>"><%= thread.subject %></a>
       </div>
       <div class="thread-list-item-info">

@@ -32,8 +32,9 @@ if (!fs.existsSync(path.resolve(DIST_DIR, './f'))) {
 // Generate /f/*.html
 for (const field of Fields) {
   for (const sub of field.subfields) {
-      const Threads = await Discuz.getFieldThreads(sub.fid);
-    await View.parseFile('field.tmpl', path.resolve(DIST_DIR, `./f/${sub.fid}.html`), { field: sub, threads: Threads });
+    const Threads = await Discuz.getFieldThreads(sub.fid);
+    const Classes = await Discuz.getFieldClasses(sub.fid);
+    await View.parseFile('field.tmpl', path.resolve(DIST_DIR, `./f/${sub.fid}.html`), { field: sub, threads: Threads, classes: Classes });
   }
 }
 

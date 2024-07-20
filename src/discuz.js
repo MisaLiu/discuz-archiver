@@ -1,13 +1,22 @@
 import MySQL from 'mysql2';
+import yabbcode from 'ya-bbcode';
 import { fillNumber } from './utils/index.js';
 
 let isDbConnected = false;
+const bbcode = new yabbcode();
 const conn = MySQL.createConnection({
   host:     process.env.DB_ADDRESS || '127.0.0.1',
   port:     process.env.DB_PORT || 3306,
   user:     process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+});
+
+
+bbcode.registerTag('color', {
+  type: 'replace',
+  open: (attr) => `<span style="color:${attr}">`,
+  close: '</span>',
 });
 
 conn.connect((err) => {
@@ -70,6 +79,18 @@ export const getUser = (uid) => new Promise((res, rej) => {
       res(result);
     })
     .catch(e => rej(e));
+});
+
+export const getFieldClasses = (fid) => new Promise((res, rej) => {
+  doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}forum_threadclass\` WHERE \`fid\`=${fid}`)
+    .then(e => {
+      const result = [ ...e ].sort((a, b) => a.displayorder - b.displayorder);
+      for (let i = 0; i < result.length; i++) {
+        result[i].name = bbcode.parse(result[i].name);
+      }
+      res(result);
+    })
+    .catch(e => rej(e))
 });
 
 const _getAllFields = () => new Promise((res, rej) => {
