@@ -20,7 +20,7 @@
         <% if (thread.typeid > 0) { %>
           <% const classInfo = classes.find((e) => e.typeid === thread.typeid); %>
           <% if (classInfo) { %>
-            <div class="thread-list-item-title-class">[<%- classInfo.name %>]</div>
+            <span class="thread-list-item-title-class">[<%- classInfo.name %>]</span>
           <% } %>
         <% } %>
         <a href="/t/<%= thread.tid %>"><%= thread.subject %></a>
