@@ -11,8 +11,10 @@
   <% } %>
 </div>
 
+<%- include('pager.tmpl'); -%>
+
 <div class="thread-list">
-  <% threads.sort((a, b) => b.lastpost - a.lastpost).forEach((thread) => { %>
+  <% threads.forEach((thread) => { %>
     <div class="thread-list-item">
       <div class="thread-list-item-title">
         <% if (thread.typeid > 0) { %>
@@ -27,7 +29,7 @@
         <div class="thread-list-item-info-author">
           <div class="thread-list-item-info-author-name">
             <a href="/u/<%= thread.authorid %>"><%= thread.author %></a>
-          </a>
+          </div>
           <div class="thread-list-item-info-author-time"><%= (new Date(thread.dateline * 1000)).toLocaleString() %></div>
         </div>
         <div class="thread-list-item-info-count">
@@ -43,4 +45,5 @@
   <% }); %>
 </div>
 
+<%- include('pager.tmpl'); -%>
 <%- include('footer.tmpl'); -%>
