@@ -11,7 +11,7 @@ const __rootdir = path.resolve(__dirname, '../');
 const VIEW_DIR = path.resolve(__rootdir, './views');
 
 
-const parseView = (filename, data = {}, extraOptions = {}) => new Promise((res, rej) => {
+export const parse = (filename, data = {}, extraOptions = {}) => new Promise((res, rej) => {
   const innerData = {
     site: {
       baseUrl: process.env.SITE_BASE || '/',
@@ -31,8 +31,8 @@ const parseView = (filename, data = {}, extraOptions = {}) => new Promise((res, 
   });
 });
 
-const parseViewFile = (filename, outputFilename, data = {}, extraOptions = {}) => new Promise(async (res, rej) => {
-  const result = await parseView(filename, data, extraOptions);
+export const parseFile = (filename, outputFilename, data = {}, extraOptions = {}) => new Promise(async (res, rej) => {
+  const result = await parse(filename, data, extraOptions);
   fs.writeFile(outputFilename, result, { encoding: 'utf8' })
     .then(e => res(e))
     .catch(e => rej(e));

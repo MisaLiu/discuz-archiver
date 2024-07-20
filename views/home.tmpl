@@ -1,5 +1,30 @@
 <%- include('header.tmpl'); -%>
 
-版块列表
+<div class="field-list">
+  <% fields.forEach((field) => { %>
+    <div class="field-group">
+      <div class="field-group-title">
+        <div class="field-group-title-text"><%= field.name %></div>
+      </div>
+      <div class="field-group-items">
+        <% field.subfields.forEach((sub) => { %>
+          <div class="field-group-item">
+            <div class="field-group-item-icon">
+              <a href="/f/<%= sub.fid %>">
+                <img src="/<%= sub.icon %>"/>
+              </a>
+            </div>
+            <div class="field-group-item-text">
+              <div class="field-group-item-title">
+                <a href="/f/<%= sub.fid %>"><%= sub.name %></a>
+              </div>
+              <div class="field-group-item-subtitle"><%= sub.description %></div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  <% }); %>
+</div>
 
 <%- include('footer.tmpl'); -%>
