@@ -1,10 +1,11 @@
 :root {
   --bg-color: white;
+  --bg-color-secondary: #f6f6f6;
 
   --border-color: #5e5e5e;
 
   --text-color: black;
-  --text-color-secondary: #555;
+  --text-color-secondary: #7a7a7a;
   --text-color-disabled: #d0d0d0;
 
   --gap: 12px;
@@ -23,6 +24,10 @@ body {
   color: var(--text-color-disabled);
   pointer-events: none;
   cursor: not-allowed;
+}
+
+.pipe {
+  color: var(--text-color-secondary);
 }
 
 /* ======== Pager ======== */
@@ -89,6 +94,10 @@ body {
   padding: calc(var(--gap) / 2);
 }
 
+.field-info-head:last-child {
+  border-bottom: unset;
+}
+
 .thread-list {
   border: 1px solid var(--border-color);
 }
@@ -111,5 +120,82 @@ body {
 }
 
 .thread-list-item:last-child {
+  border-bottom: unset;
+}
+
+/* ======== Posts ======== */
+.thread-detail {
+  display: flex;
+  border: 1px solid var(--border-color);
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+.thread-detail-head-title {
+  font-weight: bold;
+}
+
+.thread-detail-post-content-head {
+  color: var(--text-color-secondary);
+}
+
+.thread-detail-post-content-text img {
+  width: 100%;
+  height: auto;
+}
+
+.thread-detail-post-content-text blockquote {
+  margin: 0;
+  padding: 16px 40px;
+  background-color: var(--bg-color-secondary);
+}
+
+.thread-detail-head,
+.thread-detail-post {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.thread-detail-head-stats,
+.thread-detail-post-author {
+  border-right: 1px solid var(--border-color);
+}
+
+.thread-detail-post-author-head,
+.thread-detail-post-content-head {
+  padding-bottom: calc(var(--gap) / 2);
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.thread-detail-post-author-avatar,
+.thread-detail-post-content-text {
+  padding-top: calc(var(--gap) / 2);
+}
+
+.thread-detail-head-stats,
+.thread-detail-head-title,
+.thread-detail-post-author,
+.thread-detail-post-content {
+  padding: calc(var(--gap) / 2);
+}
+
+.thread-detail-head,
+.thread-detail-post,
+.thread-detail-post-content-head {
+  display: flex;
+}
+
+.thread-detail-head-stats,
+.thread-detail-post-author {
+  width: 230px;
+}
+
+.thread-detail-head-title,
+.thread-detail-post-content,
+.thread-detail-post-content-head-date {
+  flex: 1;
+}
+
+.thread-detail-post:last-child {
   border-bottom: unset;
 }
