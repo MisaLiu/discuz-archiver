@@ -147,3 +147,11 @@ export const getThread = (tid) => new Promise((res, rej) => {
     .catch(e => rej(e))
 });
 
+export const disconnect = () => new Promise((res, rej) => {
+  conn.end((err) => {
+    if (err) return rej(err);
+    isDbConnected = false;
+    res(true);
+  });
+});
+
