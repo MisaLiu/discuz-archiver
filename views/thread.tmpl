@@ -1,0 +1,46 @@
+<%- include('header.tmpl'); -%>
+
+<%- include('pager.tmpl'); -%>
+
+<div class="thread-detail">
+  <div class="thread-detail-head">
+    <div class="thread-detail-head-stats">
+      <span class="thread-detail-head-stats-label">
+        查看：<span class="thread-detail-head-stats-value"><%= threadInfo.views %></span>
+      </span>
+      <span class="pipe">|</span>
+      <span class="thread-detail-head-stats-label">
+        回复：<span class="thread-detail-head-stats-value"><%= threadInfo.replies %></span>
+      </span>
+    </div>
+    <div class="thread-detail-head-title">
+      <% if (threadInfo.typeid > 0 && classInfo) { %>
+        <span class="thread-detail-head-title-class">[<%- classInfo.name %>]</span>
+      <% } %>
+      <span class="thread-detail-head-title-text"><%= threadInfo.subject %></span>
+    </div>
+  </div>
+  <% threads.forEach((thread) => { %>
+    <div class="thread-detail-post" id="post<%= thread.position %>">
+      <div class="thread-detail-post-author">
+        <div class="thread-detail-post-author-head">
+          <a href="/u/<%= thread.authorid %>"><%= thread.author %></a>
+        </div>
+        <div class="thread-detail-post-author-avatar">
+          <img />
+        </div>
+      </div>
+      <div class="thread-detail-post-content">
+        <div class="thread-detail-post-content-head">
+          <div class="thread-detail-post-content-head-date"><%= (new Date(thread.dateline * 1000)).toLocaleString() %></div>
+          <div class="thread-detail-post-content-head-num"><%= (thread.first === 1) ? '楼主' : `${thread.position}#` %></div>
+        </div>
+        <div class="thread-detail-post-content-text"><%- thread.message %></div>
+      </div>
+    </div>
+  <% }); %>
+</div>
+
+<%- include('pager.tmpl'); -%>
+
+<%- include('footer.tmpl'); -%>

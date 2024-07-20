@@ -19,6 +19,12 @@ bbcode.registerTag('color', {
   close: '</span>',
 });
 
+bbcode.registerTag('s', {
+  type: 'replace',
+  open: '<s>',
+  close: '</s>',
+});
+
 conn.connect((err) => {
   if (err) {
     console.error('Failed to connect to Discuz! database');
@@ -91,6 +97,16 @@ export const getFieldClasses = (fid) => new Promise((res, rej) => {
       res(result);
     })
     .catch(e => rej(e))
+});
+
+export const getClass = (typeid) => new Promise((res, rej) => {
+  doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}forum_threadclass\` WHERE \`typeid\`=${typeid}`)
+    .then(e => {
+      const result = e[0];
+      result.name = bbcode.parse(result.name);
+      res(result);
+    })
+  .catch(e => rej(e));
 });
 
 const _getAllFields = () => new Promise((res, rej) => {
@@ -166,9 +182,17 @@ export const getThread = (tid) => new Promise((res, rej) => {
   doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}forum_post\` WHERE \`tid\`=${tid}`)
     .then(e => {
       const result = e.filter(e => e.first === 1)[0];
-      const subThreads = e.filter(e => e.first !== 1).sort((a, b) => a.pid - b.pid);
-
+      const subThreads = e.filter(e => e.first !== 1).sort((a, b) => a.position - b.position);
+      
+      result.message = bbcode.parse(result.message);
       result.subthreads = subThreads;
+
+      result.subthreads = result.subthreads.map((e) => {
+        const result = { ...e };
+        result.message = bbcode.parse(result.message);
+        return result;
+      });
+
       res(result);
     })
     .catch(e => rej(e))

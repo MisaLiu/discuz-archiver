@@ -40,23 +40,9 @@ for (const field of Fields) {
     const Classes = await Discuz.getFieldClasses(sub.fid);
     const PageCount = Math.ceil(Threads.length / process.env.SITE_ITEM_PER_PAGE);
 
-    if (PageCount <= 0) continue;
-
-    await View.parseFile('field.tmpl', path.resolve(FIELD_DIST_DIR, './index.html'), {
-      field: sub,
-      threads: Threads.slice(0, process.env.SITE_ITEM_PER_PAGE),
-      classes: Classes,
-      page: {
-        baseHref: `/f/${sub.fid}`,
-        current: 1,
-        total: PageCount,
-      },
-    });
-
-    if (PageCount === 1) continue;
-
     for (let i = 1; i < PageCount; i++) {
-      await View.parseFile('field.tmpl', path.resolve(FIELD_DIST_DIR, `./${i + 1}.html`), {
+      const fileName = i === 0 ? './index.html' : `./${i + 1}.html`;
+      await View.parseFile('field.tmpl', path.resolve(FIELD_DIST_DIR, fileName), {
         field: sub,
         threads: Threads.slice(process.env.SITE_ITEM_PER_PAGE * i, process.env.SITE_ITEM_PER_PAGE * (i + 1)),
         classes: Classes,
@@ -67,6 +53,47 @@ for (const field of Fields) {
         },
       });
     }
+  }
+}
+
+// Create thread dist dir if not exist
+if (!fs.existsSync(path.resolve(DIST_DIR, './t'))) {
+  fs.mkdirSync(path.resolve(DIST_DIR, './t'));
+}
+
+const FieldsAll = [];
+Fields.forEach((field) => {
+  FieldsAll.push(...field.subfields);
+});
+
+// Generate /t/*/*.html
+const Threads = await Discuz.getAllThreads();
+for (const thread of Threads) {
+  const THREAD_DIST_DIR = path.resolve(DIST_DIR, `./t/${thread.tid}`);
+  
+  if (!fs.existsSync(THREAD_DIST_DIR)) {
+    fs.mkdirSync(THREAD_DIST_DIR);
+  }
+  
+  const field = FieldsAll.find((e) => e.fid === thread.fid);
+  const detail = await Discuz.getThread(thread.tid);
+  const classInfo = thread.typeid > 0 ? (await Discuz.getClass(thread.typeid)) : null;
+  const threadsList = [ detail, ...detail.subthreads ].sort((a, b) => a.position - b.position);
+  const PageCount = Math.ceil((detail.subthreads.length + 1) / process.env.SITE_ITEM_PER_PAGE);
+
+  for (let i = 0; i < PageCount; i++) {
+    const fileName = i === 0 ? './index.html' : `./${i + 1}.html`;
+    await View.parseFile('thread.tmpl', path.resolve(THREAD_DIST_DIR, fileName), {
+      field: field,
+      classInfo: classInfo,
+      threadInfo: thread,
+      threads: threadsList.slice(process.env.SITE_ITEM_PER_PAGE * i, process.env.SITE_ITEM_PER_PAGE * (i + 1)),
+      page: {
+        baseHref: `/t/${detail.tid}`,
+        current: i + 1,
+        total: PageCount,
+      },
+    });
   }
 }
 
