@@ -3,6 +3,7 @@ import yabbcode from 'ya-bbcode';
 import { fillNumber } from './utils/index.js';
 
 let isDbConnected = false;
+const HTTPReg = /^https?:\/\//;
 const bbcode = new yabbcode();
 const conn = MySQL.createConnection({
   host:     process.env.DB_ADDRESS || '127.0.0.1',
@@ -66,8 +67,8 @@ export const getAllUsers = () => new Promise((res, rej) => {
     .then((e) => {
       const result = [ ...e ];
       for (let i = 0; i < result.length; i++) {
-        if (result[i].avatarstatus !== 1) result[i].avatarpath = 'noavatar.svg';
-        else result[i].avatarpath = `${getAvatarPath(result[i].uid)}_avatar_big.jpg`;
+        if (result[i].avatarstatus !== 1) result[i].avatarpath = 'data/avatar/noavatar.svg';
+        else result[i].avatarpath = `data/avatar/${getAvatarPath(result[i].uid)}_avatar_big.jpg`;
       }
       res(result);
     })
@@ -80,8 +81,8 @@ export const getUser = (uid) => new Promise((res, rej) => {
       if (e.length <= 0) return rej('No such user');
       
       const result = e[0];
-      if (result.avatarstatus !== 1) result.avatarpath = 'noavatar.svg';
-      else result.avatarpath = `${getAvatarPath(uid)}_avatar_big.jpg`;
+      if (result.avatarstatus !== 1) result.avatarpath = 'data/avatar/noavatar.svg';
+      else result.avatarpath = `data/avatar/${getAvatarPath(uid)}_avatar_big.jpg`;
       res(result);
     })
     .catch(e => rej(e));
@@ -144,8 +145,14 @@ const _parseFields = (_fields) => new Promise(async (res) => {
   for (const field of fields) {
     const info = await _getField(field.fid);
 
+    if (info.icon != '') {
+      if (HTTPReg.test(info.icon)) field.icon = info.icon;
+      else field.icon = `data/attachment/common/${info.icon}`;
+    } else {
+      field.icon = '';
+    }
+
     field.description = info.description;
-    field.icon = info.icon;
     field.rules = info.rules;
 
     if (field.subfields) field.subfields = await _parseFields(field.subfields);
