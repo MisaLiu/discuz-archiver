@@ -40,7 +40,7 @@ for (const field of Fields) {
     const Classes = await Discuz.getFieldClasses(sub.fid);
     const PageCount = Math.ceil(Threads.length / process.env.SITE_ITEM_PER_PAGE);
 
-    for (let i = 1; i < PageCount; i++) {
+    for (let i = 0; i < PageCount; i++) {
       const fileName = i === 0 ? './index.html' : `./${i + 1}.html`;
       await View.parseFile('field.tmpl', path.resolve(FIELD_DIST_DIR, fileName), {
         field: sub,
