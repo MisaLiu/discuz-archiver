@@ -1,4 +1,4 @@
-<% if (page) { %>
+<% if (page && page.total > 1) { %>
   <div class="pager">
     <a <%= (page.current - 1 < 1) ? 'disabled' : '' %> class="prev" href="<%= page.baseHref %>/<%= page.current > 2 ? page.current - 1 : 'index' %>.html">上一页</a>
     <a <%= (page.current + 1 > page.total) ? 'disabled' : '' %> class="next" href="<%= page.baseHref %>/<%= page.current + 1 %>.html">下一页</a>
