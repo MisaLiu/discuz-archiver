@@ -154,6 +154,10 @@ body {
   gap: var(--gap);
 }
 
+.thread-detail-post-content-text {
+  min-height: 120px;
+}
+
 .thread-detail-post-content-text img {
   width: 100%;
   height: auto;
@@ -173,6 +177,25 @@ body {
 .thread-detail-post-content-text hr {
   border: unset;
   border-bottom: 1px dotted var(--border-color);
+}
+
+.thread-detail-post-content-bio {
+  position: relative;
+  padding-top: var(--gap);
+  margin-top: var(--gap);
+  font-size: var(--gap);
+  border-top: 1px dashed var(--border-color);
+}
+
+.thread-detail-post-content-bio::before {
+  content: 'Signature';
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: calc(var(--gap) / 4);
+  padding: calc(var(--gap) / 4);
+  background-color: var(--bg-color);
+  transform: translateY(-50%);
 }
 
 .thread-detail-head,

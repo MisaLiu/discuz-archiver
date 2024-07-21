@@ -75,6 +75,12 @@ export const getUser = (uid) => new Promise((res, rej) => {
     .catch(e => rej(e));
 });
 
+export const getAllUsersBio = () => new Promise((res, rej) => {
+  doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}common_member_field_forum\``)
+    .then(e => res(e))
+    .catch(e => rej(e));
+});
+
 export const getFieldClasses = (fid) => new Promise((res, rej) => {
   doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}forum_threadclass\` WHERE \`fid\`=${fid}`)
     .then(e => {

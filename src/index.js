@@ -30,6 +30,10 @@ if (!fs.existsSync(path.resolve(DIST_DIR, './f'))) {
 
 // Get users info
 const Users = await Discuz.getAllUsers();
+(await Discuz.getAllUsersBio()).forEach((bio) => {
+  const user = Users.find((e) => e.uid === bio.uid);
+  user.bio = bio;
+});
 
 // Generate /f/*/*.html
 for (const field of Fields) {
