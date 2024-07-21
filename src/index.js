@@ -5,6 +5,7 @@ import * as fs from 'node:fs';
 import * as Discuz from './discuz.js';
 import * as View from './view.js';
 import { parse as parseBBCode } from './bbcode.js';
+import { debug } from 'node:console';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,7 +24,7 @@ if (!fs.existsSync(DIST_DIR)) {
 
 // Generate index.html
 const Fields = await Discuz.getAllFields();
-await View.parseFile('home.tmpl', path.resolve(DIST_DIR, './index.html'), { fields: Fields })
+await View.parseFile('home.tmpl', path.resolve(DIST_DIR, './index.html'), { title: '首页', fields: Fields });
 
 // Create field dist dir if not exist
 if (!fs.existsSync(path.resolve(DIST_DIR, './f'))) {
@@ -53,6 +54,7 @@ for (const field of Fields) {
     for (let i = 0; i < PageCount; i++) {
       const fileName = i === 0 ? './index.html' : `./${i + 1}.html`;
       await View.parseFile('field.tmpl', path.resolve(FIELD_DIST_DIR, fileName), {
+        title: `${sub.name} - 第${i + 1}页`,
         field: sub,
         threads: Threads.slice(process.env.SITE_ITEM_PER_PAGE * i, process.env.SITE_ITEM_PER_PAGE * (i + 1)),
         classes: Classes,
@@ -77,6 +79,7 @@ Fields.forEach((field) => {
 });
 
 // Generate /t/*/*.html
+let debugTest = false;
 const Threads = (await Discuz.getAllThreads()).filter(DeletedThreadFilter);
 for (const thread of Threads) {
   const THREAD_DIST_DIR = path.resolve(DIST_DIR, `./t/${thread.tid}`);
@@ -102,6 +105,7 @@ for (const thread of Threads) {
   for (let i = 0; i < PageCount; i++) {
     const fileName = i === 0 ? './index.html' : `./${i + 1}.html`;
     await View.parseFile('thread.tmpl', path.resolve(THREAD_DIST_DIR, fileName), {
+      title: `${classInfo ? `[${classInfo.name}] ` : ''}${thread.subject} - 第${i + 1}页 - ${field.name}`,
       field: field,
       classInfo: classInfo,
       threadInfo: thread,
