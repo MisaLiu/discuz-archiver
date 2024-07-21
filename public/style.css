@@ -42,7 +42,7 @@ main.main-container {
   position: sticky;
   top: 0px;
   left: 0px;
-  padding: calc(var(--gap) / 2);
+  padding: calc(var(--gap) / 2) var(--gap);
   background-color: var(--bg-color);
   border-bottom: 1px dashed var(--border-color);
   flex-wrap: nowrap;
