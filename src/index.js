@@ -13,6 +13,8 @@ const __rootdir = path.resolve(__dirname, '../');
 const DIST_DIR = path.resolve(__rootdir, './dist');
 const DISCUZ_DATA_DIR = path.resolve(__rootdir, './data');
 
+const DeletedThreadFilter = (e) => e.displayorder >= 0 && e.status < 544;
+
 
 // Create dist dir if not exist
 if (!fs.existsSync(DIST_DIR)) {
@@ -44,7 +46,7 @@ for (const field of Fields) {
       fs.mkdirSync(FIELD_DIST_DIR);
     }
 
-    const Threads = (await Discuz.getFieldThreads(sub.fid)).sort((a, b) => b.lastpost - a.lastpost);
+    const Threads = (await Discuz.getFieldThreads(sub.fid)).filter(DeletedThreadFilter).sort((a, b) => b.lastpost - a.lastpost);
     const Classes = await Discuz.getFieldClasses(sub.fid);
     const PageCount = Math.ceil(Threads.length / process.env.SITE_ITEM_PER_PAGE);
 
@@ -75,7 +77,7 @@ Fields.forEach((field) => {
 });
 
 // Generate /t/*/*.html
-const Threads = await Discuz.getAllThreads();
+const Threads = (await Discuz.getAllThreads()).filter(DeletedThreadFilter);
 for (const thread of Threads) {
   const THREAD_DIST_DIR = path.resolve(DIST_DIR, `./t/${thread.tid}`);
   
