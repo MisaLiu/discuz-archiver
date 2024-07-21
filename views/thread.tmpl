@@ -41,9 +41,17 @@
       <div class="thread-detail-post-content">
         <div class="thread-detail-post-content-head">
           <div class="thread-detail-post-content-head-date"><%= (new Date(thread.dateline * 1000)).toLocaleString() %></div>
+          <div class="thread-detail-post-content-head-showbbcode">
+            <label>
+              <input type="checkbox" onchange="toggleShowBBCode(<%= thread.position %>, this);" />显示 BBCode
+            </label>
+          </div>
           <div class="thread-detail-post-content-head-num"><%= (thread.first === 1) ? '楼主' : `${thread.position}#` %></div>
         </div>
-        <div class="thread-detail-post-content-text"><%- thread.message %></div>
+        <div class="thread-detail-post-content-text">
+          <div class="thread-detail-post-content-text-parsed"><%- thread.messageparsed %></div>
+          <pre class="thread-detail-post-content-text-raw hidden"><code><%- thread.message %></code></pre>
+        </div>
       </div>
     </div>
   <% }); %>

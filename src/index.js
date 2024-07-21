@@ -85,9 +85,12 @@ for (const thread of Threads) {
   const threadsList = [ detail, ...detail.subthreads ].sort((a, b) => a.position - b.position);
   const PageCount = Math.ceil((detail.subthreads.length + 1) / process.env.SITE_ITEM_PER_PAGE);
 
-  // Parse user data to threads
   for (const thread of threadsList) {
+    // Parse user data to threads
     thread.authorinfo = Users.find((e) => e.uid === thread.authorid);
+
+    // Parse BBCode
+    thread.messageparsed = parseBBCode(thread.message);
   }
 
   for (let i = 0; i < PageCount; i++) {
