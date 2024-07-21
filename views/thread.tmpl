@@ -24,10 +24,18 @@
     <div class="thread-detail-post" id="post<%= thread.position %>">
       <div class="thread-detail-post-author">
         <div class="thread-detail-post-author-head">
-          <a href="/u/<%= thread.authorid %>"><%= thread.author %></a>
+          <% if (thread.anonymous === 0) { %>
+            <a href="/u/<%= thread.authorid %>"><%= thread.author %></a>
+          <% } else { %>
+            匿名用户
+          <% } %>
         </div>
         <div class="thread-detail-post-author-avatar">
-          <img />
+          <% if (thread.anonymous === 0) { %>
+            <img src="/<%= thread.authorinfo.avatarpath %>" />
+          <% } else { %>
+            <img src="/data/avatar/noavatar.svg" />
+          <% } %>
         </div>
       </div>
       <div class="thread-detail-post-content">

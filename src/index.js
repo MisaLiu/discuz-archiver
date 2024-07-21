@@ -4,6 +4,7 @@ import path from 'node:path';
 import * as fs from 'node:fs';
 import * as Discuz from './discuz.js';
 import * as View from './view.js';
+import { parse as parseBBCode } from './bbcode.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -56,6 +57,9 @@ for (const field of Fields) {
   }
 }
 
+// Get users info
+const Users = await Discuz.getAllUsers();
+
 // Create thread dist dir if not exist
 if (!fs.existsSync(path.resolve(DIST_DIR, './t'))) {
   fs.mkdirSync(path.resolve(DIST_DIR, './t'));
@@ -80,6 +84,11 @@ for (const thread of Threads) {
   const classInfo = thread.typeid > 0 ? (await Discuz.getClass(thread.typeid)) : null;
   const threadsList = [ detail, ...detail.subthreads ].sort((a, b) => a.position - b.position);
   const PageCount = Math.ceil((detail.subthreads.length + 1) / process.env.SITE_ITEM_PER_PAGE);
+
+  // Parse user data to threads
+  for (const thread of threadsList) {
+    thread.authorinfo = Users.find((e) => e.uid === thread.authorid);
+  }
 
   for (let i = 0; i < PageCount; i++) {
     const fileName = i === 0 ? './index.html' : `./${i + 1}.html`;
