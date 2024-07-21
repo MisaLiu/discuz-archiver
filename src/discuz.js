@@ -1,10 +1,9 @@
 import MySQL from 'mysql2';
-import { BBCode, BBMode, BBType } from 'nbbcjs';
+import { parse as parseBBCode } from './bbcode.js';
 import { fillNumber } from './utils/index.js';
 
 let isDbConnected = false;
 const HTTPReg = /^https?:\/\//;
-const bbcode = new BBCode();
 const conn = MySQL.createConnection({
   host:     process.env.DB_ADDRESS || '127.0.0.1',
   port:     process.env.DB_PORT || 3306,
@@ -13,25 +12,6 @@ const conn = MySQL.createConnection({
   database: process.env.DB_NAME,
 });
 
-
-bbcode.addRule('quote', {
-  mode: BBMode.SIMPLE,
-  simple_start: '<blockquote>',
-  simple_end: '</blockquote>',
-});
-
-bbcode.addRule('code', {
-  mode: BBMode.ENHANCED,
-  template: '<pre><code>{$_content/v}</code></pre>',
-  class: 'code',
-  content: BBType.VERBATIM,
-  before_tag: 'sns',
-  after_tag: 'sn',
-  before_endtag: 'sn',
-  after_endtag: 'sns',
-});
-
-bbcode.setDetectURLs(true);
 
 conn.connect((err) => {
   if (err) {
@@ -100,7 +80,7 @@ export const getFieldClasses = (fid) => new Promise((res, rej) => {
     .then(e => {
       const result = [ ...e ].sort((a, b) => a.displayorder - b.displayorder);
       for (let i = 0; i < result.length; i++) {
-        result[i].name = bbcode.parse(result[i].name);
+        result[i].name = parseBBCode(result[i].name);
       }
       res(result);
     })
@@ -111,7 +91,7 @@ export const getClass = (typeid) => new Promise((res, rej) => {
   doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}forum_threadclass\` WHERE \`typeid\`=${typeid}`)
     .then(e => {
       const result = e[0];
-      result.name = bbcode.parse(result.name);
+      result.name = parseBBCode(result.name);
       res(result);
     })
   .catch(e => rej(e));
@@ -197,15 +177,8 @@ export const getThread = (tid) => new Promise((res, rej) => {
     .then(e => {
       const result = e.filter(e => e.first === 1)[0];
       const subThreads = e.filter(e => e.first !== 1).sort((a, b) => a.position - b.position);
-      
-      result.message = bbcode.parse(result.message);
-      result.subthreads = subThreads;
 
-      result.subthreads = result.subthreads.map((e) => {
-        const result = { ...e };
-        result.message = bbcode.parse(result.message);
-        return result;
-      });
+      result.subthreads = subThreads;
 
       res(result);
     })
