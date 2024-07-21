@@ -15,6 +15,7 @@ export const parse = (filename, data = {}, extraOptions = {}) => new Promise((re
   const innerData = {
     site: {
       baseUrl: process.env.SITE_BASE || '/',
+      title: (data.title || '') + ' - ' + process.env.SITE_NAME,
     },
     ...data,
   };
