@@ -2,7 +2,7 @@
 
 <div class="user-info">
   <div class="user-info-avatar">
-    <img src="/<%= user.avatarpath %>" />
+    <img src="<%= user.avatarpath %>" />
   </div>
   <div class="user-info-text">
     <div class="user-info-text-name"><%= user.username %></div>
@@ -16,7 +16,7 @@
   <% threads.forEach((thread) => { %>
     <div class="thread-list-item">
       <div class="thread-list-item-title">
-        <a href="/t/<%= thread.tid %>"><%= thread.subject %></a>
+        <a href="t/<%= thread.tid %>"><%= thread.subject %></a>
       </div>
       <div class="thread-list-item-author">
         <div class="thread-list-item-author-time"><%= (new Date(thread.dateline * 1000)).toLocaleString() %></div>

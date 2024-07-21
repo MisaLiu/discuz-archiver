@@ -10,13 +10,13 @@
         <% field.subfields.forEach((sub) => { %>
           <div class="field-group-item">
             <div class="field-group-item-icon">
-              <a href="/f/<%= sub.fid %>">
-                <img src="/<%= sub.icon %>"/>
+              <a href="f/<%= sub.fid %>">
+                <img src="<%= sub.icon %>"/>
               </a>
             </div>
             <div class="field-group-item-text">
               <div class="field-group-item-title">
-                <a href="/f/<%= sub.fid %>"><%= sub.name %></a>
+                <a href="f/<%= sub.fid %>"><%= sub.name %></a>
               </div>
               <div class="field-group-item-subtitle"><%= sub.description %></div>
             </div>

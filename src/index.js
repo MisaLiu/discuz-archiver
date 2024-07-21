@@ -57,7 +57,7 @@ for (const field of Fields) {
         threads: Threads.slice(process.env.SITE_ITEM_PER_PAGE * i, process.env.SITE_ITEM_PER_PAGE * (i + 1)),
         classes: Classes,
         page: {
-          baseHref: `/f/${sub.fid}`,
+          baseHref: `f/${sub.fid}`,
           current: i + 1,
           total: PageCount,
         },
@@ -107,7 +107,7 @@ for (const thread of Threads) {
       threadInfo: thread,
       threads: threadsList.slice(process.env.SITE_ITEM_PER_PAGE * i, process.env.SITE_ITEM_PER_PAGE * (i + 1)),
       page: {
-        baseHref: `/t/${detail.tid}`,
+        baseHref: `t/${detail.tid}`,
         current: i + 1,
         total: PageCount,
       },
@@ -139,7 +139,7 @@ for (const user of Users) {
       user: user,
       threads: threads.slice(process.env.SITE_ITEM_PER_PAGE * i, process.env.SITE_ITEM_PER_PAGE * (i + 1)),
       page: {
-        baseHref: `/u/${user.uid}`,
+        baseHref: `u/${user.uid}`,
         current: i + 1,
         total: PageCount,
       },

@@ -23,12 +23,12 @@
             <span class="thread-list-item-title-class">[<%- classInfo.name %>]</span>
           <% } %>
         <% } %>
-        <a href="/t/<%= thread.tid %>"><%= thread.subject %></a>
+        <a href="t/<%= thread.tid %>"><%= thread.subject %></a>
       </div>
       <div class="thread-list-item-author">
         <div class="thread-list-item-author-name">
           <% if (thread.author != '') { %>
-            <a href="/u/<%= thread.authorid %>"><%= thread.author %></a>
+            <a href="u/<%= thread.authorid %>"><%= thread.author %></a>
           <% } else { %>
             <span>匿名用户</span>
           <% } %>
