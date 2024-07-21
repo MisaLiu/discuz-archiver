@@ -45,6 +45,7 @@ main.main-container {
   padding: calc(var(--gap) / 2) var(--gap);
   background-color: var(--bg-color);
   border-bottom: 1px dashed var(--border-color);
+  z-index: 10;
   flex-wrap: nowrap;
 }
 
