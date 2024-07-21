@@ -88,6 +88,8 @@ for (const thread of Threads) {
   }
   
   const field = FieldsAll.find((e) => e.fid === thread.fid);
+  if (!field) continue;
+
   const detail = await Discuz.getThread(thread.tid);
   const classInfo = thread.typeid > 0 ? (await Discuz.getClass(thread.typeid)) : null;
   const threadsList = [ detail, ...detail.subthreads ].sort((a, b) => a.position - b.position);
