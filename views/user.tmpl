@@ -1,0 +1,30 @@
+<%- include('header.tmpl'); -%>
+
+<div class="user-info">
+  <div class="user-info-avatar">
+    <img src="/<%= user.avatarpath %>" />
+  </div>
+  <div class="user-info-text">
+    <div class="user-info-text-name"><%= user.username %></div>
+    <div class="user-info-text-bio">UID: <%= user.uid %> | 账号创建于<%= (new Date(user.regdate * 1000)).toLocaleString() %></div>
+  </div>
+</div>
+
+<%- include('pager.tmpl'); -%>
+
+<div class="thread-list user">
+  <% threads.forEach((thread) => { %>
+    <div class="thread-list-item">
+      <div class="thread-list-item-title">
+        <a href="/t/<%= thread.tid %>"><%= thread.subject %></a>
+      </div>
+      <div class="thread-list-item-author">
+        <div class="thread-list-item-author-time"><%= (new Date(thread.dateline * 1000)).toLocaleString() %></div>
+      </div>
+    </div>
+  <% }) %>
+</div>
+
+<%- include('pager.tmpl'); -%>
+
+<%- include('footer.tmpl'); -%>

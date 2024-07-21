@@ -115,6 +115,38 @@ for (const thread of Threads) {
   }
 }
 
+// Create user dist dir if not exist
+if (!fs.existsSync(path.resolve(DIST_DIR, './u'))) {
+  fs.mkdirSync(path.resolve(DIST_DIR, './u'));
+}
+
+// Generate /u/*/*.html
+for (const user of Users) {
+  const USER_DIST_DIR = path.resolve(DIST_DIR, `./u/${user.uid}`);
+
+  if (!fs.existsSync(USER_DIST_DIR)) {
+    fs.mkdirSync(USER_DIST_DIR);
+  }
+
+  const threads = Threads.filter((e) => e.authorid === user.uid).sort((a, b) => b.dateline - a.dateline);
+  const PageCount = Math.ceil(threads.length / process.env.SITE_ITEM_PER_PAGE);
+
+  if (threads.length <= 0) continue;
+
+  for (let i = 0; i < PageCount; i++) {
+    const fileName = i === 0 ? './index.html' : `./${i + 1}.html`;
+    await View.parseFile('user.tmpl', path.resolve(USER_DIST_DIR, fileName), {
+      user: user,
+      threads: threads.slice(process.env.SITE_ITEM_PER_PAGE * i, process.env.SITE_ITEM_PER_PAGE * (i + 1)),
+      page: {
+        baseHref: `/u/${user.uid}`,
+        current: i + 1,
+        total: PageCount,
+      },
+    });
+  }
+}
+
 // Disconnect database
 await Discuz.disconnect();
 
