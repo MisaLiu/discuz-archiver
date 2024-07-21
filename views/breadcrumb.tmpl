@@ -1,0 +1,15 @@
+<div class="breadcrumb">
+  <a href="/">首页</a>
+  <% if (field) { %>
+    <span class="pipe">/</span>
+    <a href="f/<%= field.fid %>"><%= field.name %></a>
+  <% } %>
+  <% if (threadInfo) { %>
+    <span class="pipe">/</span>
+    <a href="t/<%= threadInfo.tid %>"><%= threadInfo.subject %></a>
+  <% } %>
+  <% if (user) { %>
+    <span class="pipe">/</span>
+    <a href="u/<%= user.uid %>"><%= user.username %></a>
+  <% } %>
+</div>
