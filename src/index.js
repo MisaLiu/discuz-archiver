@@ -141,6 +141,7 @@ for (const user of Users) {
   for (let i = 0; i < PageCount; i++) {
     const fileName = i === 0 ? './index.html' : `./${i + 1}.html`;
     await View.parseFile('user.tmpl', path.resolve(USER_DIST_DIR, fileName), {
+      title: user.username,
       user: user,
       threads: threads.slice(process.env.SITE_ITEM_PER_PAGE * i, process.env.SITE_ITEM_PER_PAGE * (i + 1)),
       page: {
