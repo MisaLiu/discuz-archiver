@@ -28,6 +28,9 @@ if (!fs.existsSync(path.resolve(DIST_DIR, './f'))) {
   fs.mkdirSync(path.resolve(DIST_DIR, './f'));
 }
 
+// Get users info
+const Users = await Discuz.getAllUsers();
+
 // Generate /f/*/*.html
 for (const field of Fields) {
   for (const sub of field.subfields) {
@@ -56,9 +59,6 @@ for (const field of Fields) {
     }
   }
 }
-
-// Get users info
-const Users = await Discuz.getAllUsers();
 
 // Create thread dist dir if not exist
 if (!fs.existsSync(path.resolve(DIST_DIR, './t'))) {
