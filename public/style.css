@@ -12,6 +12,7 @@
 }
 
 body {
+  margin: 0;
   color: var(--text-color);
   background: var(--bg-color);
 }
@@ -28,6 +29,46 @@ body {
 
 .pipe {
   color: var(--text-color-secondary);
+}
+
+/* ======== Main ======== */
+main.main-container {
+  margin: var(--gap);
+}
+
+/* ======== Header ======== */
+.header {
+  display: flex;
+  position: sticky;
+  top: 0px;
+  left: 0px;
+  padding: calc(var(--gap) / 2);
+  background-color: var(--bg-color);
+  border-bottom: 1px dashed var(--border-color);
+  flex-wrap: nowrap;
+}
+
+.header-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  flex: 1;
+}
+
+.header-title a {
+  color: var(--text-color);
+  text-decoration: unset;
+}
+
+/* ======== Footer ======== */
+.footer {
+  margin: var(--gap) auto;
+  margin-bottom: 0px;
+  text-align: center;
+  border-top: 1px dashed var(--border-color);
+}
+
+.footer p {
+  margin: calc(var(--gap) / 2) 0px;
 }
 
 /* ======== Pager ======== */
@@ -120,11 +161,16 @@ body {
 }
 
 .thread-list-item-author {
+  color: var(--text-color-secondary);
   text-align: right;
 }
 
 .thread-list-item:last-child {
   border-bottom: unset;
+}
+
+.thread-list.user .thread-list-item {
+  min-height: 43px;
 }
 
 /* ======== Posts ======== */
@@ -170,7 +216,7 @@ body {
 }
 
 .thread-detail-post-content-text pre {
-  max-width: calc(100vw - 180px - var(--gap) - 35px);
+  max-width: calc(100vw - 180px - var(--gap) - 43px);
   overflow-x: scroll;
 }
 
@@ -251,4 +297,30 @@ body {
 
 .thread-detail-post:last-child {
   border-bottom: unset;
+}
+
+/* ======== User ========= */
+.user-info {
+  display: flex;
+  padding: calc(var(--gap) / 2);
+  border: 1px solid var(--border-color);
+  gap: calc(var(--gap) / 2);
+}
+
+.user-info-avatar img {
+  width: auto;
+  height: 100px;
+}
+
+.user-info-text {
+  flex: 1;
+}
+
+.user-info-text-name {
+  font-weight: bold;
+  font-size: 1.4em;
+}
+
+.user-info-text-bio {
+  color: var(--text-color-secondary);
 }
