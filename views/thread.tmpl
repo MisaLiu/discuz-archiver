@@ -52,7 +52,7 @@
           <div class="thread-detail-post-content-text-parsed"><%- thread.messageparsed %></div>
           <pre class="thread-detail-post-content-text-raw hidden"><code><%- thread.message %></code></pre>
         </div>
-        <% if (thread.authorinfo.bio && thread.authorinfo.bio.sightml != '') { %>
+        <% if (thread.usesig == 1 && thread.authorinfo.bio && thread.authorinfo.bio.sightml != '') { %>
           <div class="thread-detail-post-content-bio">
             <%- thread.authorinfo.bio.sightml %>
           </div>
