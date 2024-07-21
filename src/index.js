@@ -4,7 +4,7 @@ import path from 'node:path';
 import * as fs from 'node:fs';
 import * as Discuz from './discuz.js';
 import * as View from './view.js';
-import { parse as parseBBCode } from './bbcode.js';
+import { parse as parseBBCode, BBCode } from './bbcode.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,7 +15,7 @@ const DISCUZ_DATA_DIR = path.resolve(__rootdir, './data');
 
 const DeletedThreadFilter = (e) => {
   if (e.displayorder < 0 && e.status >=544) return false;
-  else return true;
+  return true;
 };
 
 
@@ -103,6 +103,7 @@ for (const thread of Threads) {
 
     // Parse BBCode
     thread.messageparsed = parseBBCode(thread.message);
+    thread.message = BBCode.htmlEncode(thread.message);
   }
 
   for (let i = 0; i < PageCount; i++) {
