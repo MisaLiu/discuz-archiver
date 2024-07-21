@@ -176,7 +176,7 @@ main.main-container {
   border-bottom: unset;
 }
 
-.thread-list.user .thread-list-item {
+.thread-list .thread-list-item {
   min-height: 43px;
 }
 
@@ -330,4 +330,76 @@ main.main-container {
 
 .user-info-text-bio {
   color: var(--text-color-secondary);
+}
+
+/* ======== Mobile support ======== */
+@media screen and (max-width: 600px) {
+  :root {
+    --gap: 10px;
+  }
+
+  /* ======== Fields ======== */
+  .field-group-items {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: calc(var(--gap) / 2);
+  }
+
+  /* ======== Threads ========= */
+  .thread-list-item-author {
+    display: none;
+  }
+
+  /* ======== Posts ======== */
+  .thread-detail-head {
+    flex-direction: column-reverse;
+  }
+
+  .thread-detail-head-title {
+    padding-bottom: 0;
+  }
+
+  .thread-detail-head-stats {
+    padding-top: 0;
+    border-right: unset;
+  }
+
+  .thread-detail-post {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .thread-detail-post-author {
+    display: flex;
+    width: 100%;
+    padding-bottom: 0;
+    border-right: unset;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    gap: calc(var(--gap) / 2);
+  }
+  
+  .thread-detail-post-author-head {
+    border-bottom: unset;
+  }
+
+  .thread-detail-post-author-avatar img {
+    width: auto;
+    height: 28px;
+  }
+
+  .thread-detail-post-content {
+    padding-top: 0;
+  }
+
+  .thread-detail-post-content-text {
+    min-height: 80px;
+  }
+
+  .thread-detail-post-content-text pre {
+    max-width: 100%;
+  }
 }
