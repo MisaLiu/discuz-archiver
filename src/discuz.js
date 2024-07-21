@@ -1,10 +1,10 @@
 import MySQL from 'mysql2';
-import yabbcode from 'ya-bbcode';
+import { BBCode, BBMode, BBType } from 'nbbcjs';
 import { fillNumber } from './utils/index.js';
 
 let isDbConnected = false;
 const HTTPReg = /^https?:\/\//;
-const bbcode = new yabbcode();
+const bbcode = new BBCode();
 const conn = MySQL.createConnection({
   host:     process.env.DB_ADDRESS || '127.0.0.1',
   port:     process.env.DB_PORT || 3306,
@@ -14,17 +14,24 @@ const conn = MySQL.createConnection({
 });
 
 
-bbcode.registerTag('color', {
-  type: 'replace',
-  open: (attr) => `<span style="color:${attr}">`,
-  close: '</span>',
+bbcode.addRule('quote', {
+  mode: BBMode.SIMPLE,
+  simple_start: '<blockquote>',
+  simple_end: '</blockquote>',
 });
 
-bbcode.registerTag('s', {
-  type: 'replace',
-  open: '<s>',
-  close: '</s>',
+bbcode.addRule('code', {
+  mode: BBMode.ENHANCED,
+  template: '<pre><code>{$_content/v}</code></pre>',
+  class: 'code',
+  content: BBType.VERBATIM,
+  before_tag: 'sns',
+  after_tag: 'sn',
+  before_endtag: 'sn',
+  after_endtag: 'sns',
 });
+
+bbcode.setDetectURLs(true);
 
 conn.connect((err) => {
   if (err) {
