@@ -94,8 +94,10 @@ for (const thread of Threads) {
 
   const detail = await Discuz.getThread(thread.tid);
   const classInfo = thread.typeid > 0 ? (await Discuz.getClass(thread.typeid)) : null;
-  const threadsList = [ detail, ...detail.subthreads ].sort((a, b) => a.position - b.position);
+  const threadsList = [ detail, ...detail.subthreads ].filter((e) => e.status != 2).sort((a, b) => a.position - b.position);
   const PageCount = Math.ceil((detail.subthreads.length + 1) / process.env.SITE_ITEM_PER_PAGE);
+
+  if (threadsList.length <= 0) continue;
 
   for (const thread of threadsList) {
     // Parse user data to threads
