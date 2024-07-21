@@ -136,7 +136,7 @@ for (const user of Users) {
     fs.mkdirSync(USER_DIST_DIR);
   }
 
-  const threads = Threads.filter((e) => e.authorid === user.uid).sort((a, b) => b.dateline - a.dateline);
+  const threads = Threads.filter((e) => e.authorid === user.uid && FieldsAll.find((i) => i.fid === e.fid)).sort((a, b) => b.dateline - a.dateline);
   const PageCount = Math.ceil(threads.length / process.env.SITE_ITEM_PER_PAGE);
 
   if (threads.length <= 0) continue;
