@@ -5,7 +5,6 @@ import * as fs from 'node:fs';
 import * as Discuz from './discuz.js';
 import * as View from './view.js';
 import { parse as parseBBCode } from './bbcode.js';
-import { debug } from 'node:console';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,7 +13,10 @@ const __rootdir = path.resolve(__dirname, '../');
 const DIST_DIR = path.resolve(__rootdir, './dist');
 const DISCUZ_DATA_DIR = path.resolve(__rootdir, './data');
 
-const DeletedThreadFilter = (e) => e.displayorder >= 0 && e.status < 544;
+const DeletedThreadFilter = (e) => {
+  if (e.displayorder < 0 && e.status >=544) return false;
+  else return true;
+};
 
 
 // Create dist dir if not exist
