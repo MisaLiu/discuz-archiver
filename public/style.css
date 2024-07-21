@@ -119,6 +119,10 @@ body {
   flex: 1;
 }
 
+.thread-list-item-author {
+  text-align: right;
+}
+
 .thread-list-item:last-child {
   border-bottom: unset;
 }
@@ -136,8 +140,18 @@ body {
   font-weight: bold;
 }
 
+.thread-detail-post-author-head {
+  font-weight: bold;
+}
+
+.thread-detail-post-author-avatar img {
+  width: 120px;
+  height: auto;
+}
+
 .thread-detail-post-content-head {
   color: var(--text-color-secondary);
+  gap: var(--gap);
 }
 
 .thread-detail-post-content-text img {
@@ -149,6 +163,16 @@ body {
   margin: 0;
   padding: 16px 40px;
   background-color: var(--bg-color-secondary);
+}
+
+.thread-detail-post-content-text pre {
+  max-width: calc(100vw - 180px - var(--gap) - 35px);
+  overflow-x: scroll;
+}
+
+.thread-detail-post-content-text hr {
+  border: unset;
+  border-bottom: 1px dotted var(--border-color);
 }
 
 .thread-detail-head,
@@ -187,13 +211,19 @@ body {
 
 .thread-detail-head-stats,
 .thread-detail-post-author {
-  width: 230px;
+  width: 180px;
 }
 
 .thread-detail-head-title,
 .thread-detail-post-content,
 .thread-detail-post-content-head-date {
+  width: 100%;
   flex: 1;
+}
+
+.thread-detail-post-content-text-parsed.hidden,
+.thread-detail-post-content-text-raw.hidden {
+  display: none;
 }
 
 .thread-detail-post:last-child {
