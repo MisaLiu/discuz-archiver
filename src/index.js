@@ -111,7 +111,7 @@ for (const thread of Threads) {
   for (let i = 0; i < PageCount; i++) {
     const fileName = i === 0 ? './index.html' : `./${i + 1}.html`;
     await View.parseFile('thread.tmpl', path.resolve(THREAD_DIST_DIR, fileName), {
-      title: `${classInfo ? `[${classInfo.name}] ` : ''}${thread.subject} - 第${i + 1}页${field ? ` - ${field.name}` : ''}`,
+      title: `${classInfo ? `[${classInfo.name.replace(/<[^>]*>/g, '')}] ` : ''}${thread.subject} - 第${i + 1}页${field ? ` - ${field.name}` : ''}`,
       field: field,
       classInfo: classInfo,
       threadInfo: thread,
