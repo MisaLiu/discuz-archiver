@@ -191,6 +191,26 @@ export const getThread = (tid) => new Promise((res, rej) => {
     .catch(e => rej(e))
 });
 
+export const getAttachInfosByTid = (tid) => new Promise((res, rej) => {
+  doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}forum_attachment\` WHERE \`tid\`=${tid}`)
+    .then(e => res(e))
+    .catch(e => rej(e));
+});
+
+export const getAttachDetail = (aid, tableid) => new Promise(async (res, rej) => {
+  const detail = await doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}forum_attachment_${tableid}\` WHERE \`aid\`=${aid}`);
+  const exif = await doDbQuery(`SELECT * from \`${process.env.DB_PREFIX}forum_attachment_exif\` WHERE \`aid\`=${aid}`);
+  if (detail.length <= 0 || !detail[0]) rej('No such attach');
+
+  const result = {
+    ...detail[0],
+    exif: exif.length > 0 && exif[0] ? exif[0].exif : '',
+  };
+  result.attachment = `data/attachment/forum/${result.attachment}`;
+
+  res(result);
+});
+
 export const disconnect = () => new Promise((res, rej) => {
   conn.end((err) => {
     if (err) return rej(err);

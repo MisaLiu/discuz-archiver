@@ -21,7 +21,7 @@
     </div>
   </div>
   <% threads.forEach((thread) => { %>
-    <div class="thread-detail-post" id="post<%= thread.position %>">
+    <div class="thread-detail-post" data-pid="<%= thread.pid %>" id="post<%= thread.position %>">
       <div class="thread-detail-post-author">
         <div class="thread-detail-post-author-head">
           <% if (thread.anonymous === 0) { %>

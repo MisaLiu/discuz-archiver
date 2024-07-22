@@ -110,12 +110,30 @@ for (const thread of Threads) {
 
   for (let i = 0; i < PageCount; i++) {
     const fileName = i === 0 ? './index.html' : `./${i + 1}.html`;
+    const currentThreads = threadsList.slice(process.env.SITE_ITEM_PER_PAGE * i, process.env.SITE_ITEM_PER_PAGE * (i + 1));
+    const currentAttachList = [];
+    
+    // Parsing thread attachments
+    for (const thread of currentThreads) {
+      if (thread.attachment === 0) continue;
+      
+      const attachInfos = await Discuz.getAttachInfosByTid(thread.tid);
+      for (const attach of attachInfos) {
+        const attachDetail = await Discuz.getAttachDetail(attach.aid, attach.tableid);
+        currentAttachList.push({
+          ...attach,
+          detail: attachDetail,
+        });
+      }
+    }
+
     await View.parseFile('thread.tmpl', path.resolve(THREAD_DIST_DIR, fileName), {
       title: `${classInfo ? `[${classInfo.name.replace(/<[^>]*>/g, '')}] ` : ''}${thread.subject} - 第${i + 1}页${field ? ` - ${field.name}` : ''}`,
       field: field,
       classInfo: classInfo,
       threadInfo: thread,
-      threads: threadsList.slice(process.env.SITE_ITEM_PER_PAGE * i, process.env.SITE_ITEM_PER_PAGE * (i + 1)),
+      threads: currentThreads,
+      attachList: currentAttachList,
       page: {
         baseHref: `t/${detail.tid}`,
         current: i + 1,

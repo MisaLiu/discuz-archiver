@@ -19,6 +19,7 @@ export const parse = (filename, data = {}, extraOptions = {}) => new Promise((re
     },
     field: null,
     threadInfo: null,
+    attachList: null,
     user: null,
     ...data,
   };

@@ -306,6 +306,57 @@ main.main-container {
   border-bottom: unset;
 }
 
+/* ======== Attachment ======== */
+.attachment {
+  display: inline-block;
+  margin: 0 calc(var(--gap) / 2);
+  color: var(--text-color-secondary);
+  font-style: italic;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.attachment[data-attached='true'] {
+  color: var(--text-color);
+  font-style: normal;
+}
+
+.attachment.failed {
+  color: var(--text-color-disabled);
+}
+
+.attachment.file {
+  padding: calc(var(--gap) / 2);
+  border: 1px dashed var(--border-color);
+}
+
+.attachment.file p {
+  margin: calc(var(--gap) / 2) 0;
+}
+
+.attachment.image {
+  margin: 0;
+  -webkituser-select: auto;
+  -moz-user-select: auto;
+  -ms-user-select: auto;
+  -o-user-select: auto;
+  user-select: auto;
+}
+
+.attachment.image a img {
+  display: block;
+}
+
+.attachment.image a::after {
+  content: attr(download);
+  display: block;
+  margin: calc(var(--gap) / 2) 0;
+  text-align: center;
+}
+
 /* ======== User ========= */
 .user-info {
   display: flex;

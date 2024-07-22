@@ -1,5 +1,7 @@
 <%- include('head.tmpl'); -%>
 
+<script>window.CURRENT_ATTACH_LIST=<%- attachList != '' ? JSON.stringify(attachList) : 'null' %>;</script>
+
 <div class="header">
   <div class="header-title">
     <a href="./"><%= process.env.SITE_NAME %></a>

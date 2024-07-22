@@ -43,5 +43,11 @@ bbcode.addRule('code', {
   after_endtag: 'sns',
 });
 
+bbcode.addRule('attach', {
+  mode: BBMode.ENHANCED,
+  class: 'block',
+  template: '<div class="attachment" data-id="{$_content}">Loading attachment...</div>'
+});
+
 export { bbcode as BBCode };
 export const parse = (text) => bbcode.parse(text);
